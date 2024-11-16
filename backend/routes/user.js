@@ -1,6 +1,6 @@
 import express from "express";
 import zod from "zod";
-import { User } from "../db.js";
+import { Account, User } from "../db.js";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config.js";
 import { authMiddleware } from "../middleware.js";
@@ -9,14 +9,13 @@ const router = express.Router();
 
 const signupBody = zod.object({
   username: zod.string().email(),
+  password: zod.string(),
   firstName: zod.string(),
   lastName: zod.string(),
-  password: zod.string(),
 });
 
 router.post("/signup", async (req, res) => {
   const { success } = signupBody.safeParse(req.body);
-  console.log("success", success);
 
   if (!success) {
     return res.status(411).json({
@@ -41,6 +40,11 @@ router.post("/signup", async (req, res) => {
     lastName: req.body.lastName,
   });
   const userId = user._id;
+
+  await Account.create({
+    userId,
+    balance: 1 + Math.random() * 10000,
+  });
 
   const token = jwt.sign(
     {
@@ -72,6 +76,13 @@ router.post("/signin", async (req, res) => {
     username: req.body.username,
     password: req.body.password,
   });
+
+  // Check for wrong credentials
+  if (!user) {
+    return res.status(411).json({
+      message: "Incorrect inputs",
+    });
+  }
 
   if (user) {
     const token = jwt.sign(
@@ -110,6 +121,36 @@ router.put("/", authMiddleware, async (req, res) => {
 
   res.json({
     message: "Updated successfully",
+  });
+});
+
+router.get("/bulk", async (req, res) => {
+  const filter = req.query.filter || "";
+
+  const users = await User.find({
+    $or: [
+      {
+        firstName: {
+          $regex: filter,
+          $options: "i",
+        },
+      },
+      {
+        lastName: {
+          $regex: filter,
+          $options: "i",
+        },
+      },
+    ],
+  });
+
+  res.json({
+    user: users.map((user) => ({
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      _id: user._id,
+    })),
   });
 });
 
