@@ -1,13 +1,13 @@
 import { useState } from "react"
-import { BottomWarning } from "../components/BottomWarning"
-import { Button } from "../components/Button"
-import { Heading } from "../components/Heading"
-import { InputBox } from "../components/InputBox"
-import { SubHeading } from "../components/SubHeading"
+import  BottomWarning  from "../components/BottomWarning"
+import  Button from "../components/Button"
+import Heading from "../components/Heading"
+import InputBox from "../components/InputBox"
+import  SubHeading  from "../components/SubHeading"
 import axios from "axios";
 import { useNavigate } from "react-router-dom"
 
-export const Signup = () => {
+export default function Signup () {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
@@ -21,16 +21,16 @@ export const Signup = () => {
         <SubHeading label={"Enter your infromation to create an account"} />
         <InputBox onChange={e => {
           setFirstName(e.target.value);
-        }} placeholder="Nisarg" label={"First Name"} />
+        }} placeholder="John" label={"First Name"} />
         <InputBox onChange={(e) => {
           setLastName(e.target.value);
-        }} placeholder="Gandhi" label={"Last Name"} />
+        }} placeholder="Doe" label={"Last Name"} />
         <InputBox onChange={e => {
           setUsername(e.target.value);
-        }} placeholder="nisarggandhi21@gmail.com" label={"Email"} />
+        }} placeholder="example@gmail.com" label={"Email"} />
         <InputBox onChange={(e) => {
           setPassword(e.target.value)
-        }} placeholder="123456" label={"Password"} />
+        }} placeholder="password" label={"Password"} />
         <div className="pt-4">
           <Button onClick={async () => {
             const response = await axios.post("http://localhost:3000/api/v1/user/signup", {

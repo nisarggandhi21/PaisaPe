@@ -154,4 +154,22 @@ router.get("/bulk", async (req, res) => {
   });
 });
 
+// Write a router to get information about user
+router.get("/user", authMiddleware, async (req, res) => {
+  const user = await User.findOne({ _id: req.userId });
+  res.json({
+    username: user.username,
+    firstName: user.firstName,
+    lastName: user.lastName,
+  });
+});
+
+// Signout
+router.get("/signout", authMiddleware, async (req, res) => {
+  res.json({
+    message: "Signout successful",
+    token: "",
+  });
+});
+
 export default router;
