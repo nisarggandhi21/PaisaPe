@@ -17,12 +17,12 @@ export default function Signin  ()  {
       <div className="rounded-lg bg-white w-80 text-center p-2 h-max px-4">
         <Heading label={"Sign in"} />
         <SubHeading label={"Enter your credentials to access your account"} />
-        <InputBox placeholder="harkirat@gmail.com" label={"Email"}
+        <InputBox placeholder="nisarggandhi21@gmail.com" label={"Email"}
         onChange={(e)=>{
             setUsername(e.target.value);
         }} 
         />
-        <InputBox placeholder="123456" label={"Password"} onChange={(e)=>{
+        <InputBox placeholder="password" label={"Password"} onChange={(e)=>{
             setPassword(e.target.value)
         }} />
         <div className="pt-4">

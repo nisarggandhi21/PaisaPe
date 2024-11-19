@@ -4,7 +4,8 @@ import SignIn from "./pages/signIn";
 import SignUp from "./pages/signUp";
 import Dashboard from "./pages/dashboard";
 import SendMoney from "./pages/SendMoney";
-import { useNavigate } from "react-router-dom"
+
+import Home from "./pages/Home";
 
 function App() {
   // const navigate = useNavigate();
@@ -13,6 +14,7 @@ function App() {
   return <>
   <BrowserRouter>
   <Routes>
+    <Route path="/" element={<Home/>} />
     <Route path="/signin" element={<SignIn/>} />
     <Route path="/signup" element={<SignUp/>} />
     <Route path="/dashboard" element={<Dashboard/>} /> 
